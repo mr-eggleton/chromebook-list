@@ -5,6 +5,12 @@ from dataclasses import dataclass
 class Computer():
     asset: str = ""
     name:  str = ""
+    
+    def getIterable(self):
+        return [self.asset, self.name]
+    
+    def __str__(self):
+        return self.asset + ": " + self.name
 
 class Computers(list):
     
@@ -20,16 +26,16 @@ class Computers(list):
         with open(filename, 'w', newline='') as csvfile:
             spamwriter = csv.writer(csvfile)
             for row in self:
-                spamwriter.writerow(row)
+                spamwriter.writerow(row.getIterable())
     
     
     def getComputer(self, text):
         for computer in self:
-            if trim(computer.asset).lower() == trim(text).lower():
+            if computer.asset.strip().lower() == text.strip().lower():
                 return computer
             
         for computer in self:
-            if trim(computer.name).lower() == trim(text).lower():
+            if computer.name.strip().lower() == text.strip().lower():
                 return computer
             
             return False
@@ -38,7 +44,7 @@ class Computers(list):
         self.append(Computer(asset , name))     
 
 
-computers = Computers()
+computers = Computers.load()
 
 while True:
     asset = input("Scan Asset Tag : ")
