@@ -31,17 +31,17 @@ class Computers(list):
     
     def getComputer(self, text):
         for computer in self:
-            if computer.asset.strip().lower() == text.strip().lower():
+            if computer.asset.strip().upper() == text.strip().upper():
                 return computer
             
         for computer in self:
-            if computer.name.strip().lower() == text.strip().lower():
+            if computer.name.strip().upper() == text.strip().upper():
                 return computer
             
             return False
     
     def add(self, asset, name):
-        self.append(Computer(asset , name))     
+        self.append(Computer(asset.strip().upper() , name.strip().upper()))     
 
 
 computers = Computers.load()
