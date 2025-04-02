@@ -1,4 +1,5 @@
 import csv
+import re
 from dataclasses import dataclass
 
 @dataclass
@@ -28,6 +29,18 @@ class Computers(list):
             for row in self:
                 spamwriter.writerow(row.getIterable())
     
+    def summarize(self):
+        summary = {}
+        for computer in self:
+            trolley = re.sub('\d', '', computer.name.strip().upper())
+            #print(trolley, summary)
+            if(trolley not in summary):
+                #print("if(trolley not in self)")
+                summary[trolley] = 0
+            summary[trolley] += 1
+        print ("Summary", summary)
+        print("Target  {'OLP-CR-EN': 1, 'INCLUSION': 8, 'HEALTH': 20, 'OLP-CR-CON': 8, 'SPORT': 26, 'OLP-CR-SP': 26}")
+        print("Total",len(self))
     
     def getComputer(self, text):
         for computer in self:
@@ -45,6 +58,7 @@ class Computers(list):
 
 
 computers = Computers.load()
+computers.summarize()
 
 while True:
     asset = input("Scan Asset Tag : ")
