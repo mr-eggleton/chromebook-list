@@ -51,10 +51,11 @@ class Computers(list):
             if computer.name.strip().upper() == text.strip().upper():
                 return computer
             
-            return False
+        return False
     
     def add(self, asset, name):
-        self.append(Computer(asset.strip().upper() , name.strip().upper()))     
+        self.append(Computer(asset.strip().upper() , name.strip().upper()))
+        return self.getComputer(asset)  
 
 
 computers = Computers.load()
@@ -68,9 +69,9 @@ while True:
     else :
         print("Not Found")
         name = input("Scan Name Tag : ")
-        if(name):
-            print("Saving ", asset , name) 
-            computers.add(asset , name)
+        if(name and name.strip().upper() != "ERROR"):
+            newComputer = computers.add(asset , name)
+            print("Saving ", newComputer) 
             computers.save()
         else :
             print("Nothing to save.")
