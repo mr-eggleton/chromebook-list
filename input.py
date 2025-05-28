@@ -59,15 +59,52 @@ class Computers(list):
         self.append(Computer(asset.strip().upper(), name.strip().upper()))
         return self.getComputer(asset)
 
+    def updateComputer(self, asset, name):
+        for computer in self:
+            if computer.asset.strip().upper() == asset.strip().upper():
+                computer.name = name
+                return computer
+
+        return False
+
 
 computers = Computers.load()
 computers.summarize()
+next_is_broken = False
+next_is_missing = False
 
 while True:
     asset = input("Scan Asset Tag : ")
     computer = computers.getComputer(asset)
+
     if computer:
         print(computer)
+        status = False
+
+        if next_is_broken:
+            status = "Broken:"
+            next_is_broken = False
+
+        if next_is_missing:
+            status = "Missing:"
+            next_is_missing = False
+
+        if status:
+            updated_computer = computers.updateComputer(asset, status
+                                                        + computer.name)
+            print("Saving ", updated_computer)
+
+            computers.save()
+            computers.summarize()
+            next_is_broken = False
+    elif asset.lower().strip() == "br":
+        next_is_broken = True
+        print("Next Scanned item will be marked as broken")
+
+    elif asset.lower().strip() == "mi":
+        next_is_missing = True
+        print("Next Scanned item will be marked as missing")
+
     else:
         print("Not Found")
         name = input("Scan Name Tag : ")
