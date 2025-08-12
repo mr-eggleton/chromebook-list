@@ -40,7 +40,7 @@ class Computers(list):
                 summary[trolley] = 0
             summary[trolley] += 1
         print("Summary", summary)
-        print("Target  {'OLP-CR-EN': 1, 'INCLUSION': 8, 'HEALTH': 20,"
+        print("Target  {'OLP-CR-EN': 1, 'INCLUSION': 15, 'HEALTH': 20,"
               + " 'OLP-CR-CON': 8, 'SPORT': 26, 'OLP-CR-SP': 26}")
         print("Total", len(self))
 
