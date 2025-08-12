@@ -41,7 +41,7 @@ class Computers(list):
             summary[trolley] += 1
         print("Summary", summary)
         print("Target  {'OLP-CR-EN': 1, 'INCLUSION': 15, 'HEALTH': 20,"
-              + " 'OLP-CR-CON': 8, 'SPORT': 26, 'OLP-CR-SP': 26}")
+              + " 'OLP-CR-CON': 8, 'SPORT': 26, 'OLP-CR-SP': 24}")
         print("Total", len(self))
 
     def getComputer(self, text):
