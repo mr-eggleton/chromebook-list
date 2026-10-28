@@ -7,12 +7,13 @@ from dataclasses import dataclass
 class Computer():
     asset: str = ""
     name:  str = ""
+    serial: str = ""
 
     def getIterable(self):
-        return [self.asset, self.name]
+        return [self.asset, self.name, self.serial]
 
     def __str__(self):
-        return self.asset + ": " + self.name
+        return self.asset + ": " + self.name + " ("+self.serial+")"
 
 
 class Computers(list):
@@ -21,7 +22,10 @@ class Computers(list):
         with open(filename, newline='') as csv_file:
             reader = csv.reader(csv_file)
             for row in reader:
-                newList.append(Computer(row[0], row[1]))
+                if len(row) == 2:
+                    newList.append(Computer(row[0], row[1], ""))
+                else:
+                    newList.append(Computer(row[0], row[1], row[2]))
             return newList
 
     def save(self, filename="computers.csv"):
@@ -62,10 +66,18 @@ class Computers(list):
     def updateComputer(self, asset, name):
         for computer in self:
             if computer.asset.strip().upper() == asset.strip().upper():
-                computer.name = name
+                computer.name = name.strip().upper()
                 return computer
 
         return False
+
+    def updateSerial(self, asset, serial):
+            for computer in self:
+                if computer.asset.strip().upper() == asset.strip().upper():
+                    computer.serial = serial.strip().upper()
+                    return computer
+    
+            return False
 
 
 computers = Computers.load()
@@ -97,6 +109,17 @@ while True:
             computers.save()
             computers.summarize()
             next_is_broken = False
+            next_is_missing = False
+        else:
+            if not computer.serial:
+                serial = input("Scan Serial Tag : ")
+                if (serial and serial.strip().upper() != "ERROR"):                    
+                    updated_computer = computers.updateSerial(asset, serial)
+                    print("Saving ", updated_computer)
+                    computers.save()       
+                else:
+                    print("Nothing to save.")
+
     elif asset.lower().strip() == "br":
         next_is_broken = True
         print("Next Scanned item will be marked as broken")
